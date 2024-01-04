@@ -21,7 +21,7 @@ public class Config {
 	private static final TypeAdapter<JsonObject> ADAPTER = new Gson().getAdapter(JsonObject.class);
 	public static final Config INSTANCE = new Config();
 
-	public boolean toggleOnUse = false;
+	public boolean toggleOnUse = true;
 	public boolean keepSprintingOnDeath = true;
 
 	public boolean sprintOnJoin = true;
