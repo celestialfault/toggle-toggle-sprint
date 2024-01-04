@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "me.celestialfault.toggletogglesprint.mixins",
+  "plugin": "me.celestialfault.toggletogglesprint.mixinplugin.Require1_20_1",
+  "compatibilityLevel": "JAVA_17",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "KeyBindingMixin"
+  ]
+}

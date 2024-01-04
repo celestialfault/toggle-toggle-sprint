@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "toggle-toggle-sprint",
+	"version": "${version}",
+	"name": "Toggle Toggle Sprint",
+	"description": "Adds keybinds to use the vanilla toggle-sprint/sneak behavior in an anticheat-friendly way",
+	"authors": ["celeste"],
+	"contact": {
+		"sources": "https://github.com/celestialfault/toggle-toggle-sprint"
+	},
+	"license": "CC0-1.0",
+	"environment": "client",
+	"entrypoints": {
+		"client": ["me.celestialfault.toggletogglesprint.ToggleToggleSprint"],
+		"modmenu": ["me.celestialfault.toggletogglesprint.ModMenuCompat"]
+	},
+	"accessWidener": "toggle-toggle-sprint.accesswidener",
+	"mixins": [
+      "toggle-toggle-sprint.mixins.json"
+    ],
+	"depends": {
+		"fabricloader": ">=0.15",
+		"minecraft": ">=1.19",
+		"java": ">=17",
+		"fabric-key-binding-api-v1": "*",
+		"fabric-lifecycle-events-v1": "*"
+	},
+	"recommends": {
+		"yet_another_config_lib_v3": "*",
+		"modmenu": "*"
+	}
+}
