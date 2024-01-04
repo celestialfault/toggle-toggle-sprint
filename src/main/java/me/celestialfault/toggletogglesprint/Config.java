@@ -21,30 +21,36 @@ public class Config {
 	private static final TypeAdapter<JsonObject> ADAPTER = new Gson().getAdapter(JsonObject.class);
 	public static final Config INSTANCE = new Config();
 
-	public boolean toggleOnUse = true;
 	public boolean keepSprintingOnDeath = true;
 
 	public boolean sprintOnJoin = true;
 	public ToggleState defaultSprintState = ToggleState.UNCHANGED;
+	public boolean alsoStartSprinting = true;
 
 	public boolean sneakOnJoin = false;
 	public ToggleState defaultSneakState = ToggleState.UNCHANGED;
+	public boolean alsoStartSneaking = true;
 
 	private Config() {
 		File configFile = PATH.toFile();
 		if(!configFile.exists()) {
 			// create a config file with defaults, as we have no guarantee that yacl and/or modmenu will be loaded
+			// and we'd preferably like to keep a way for the config to be edited without having to dig through
+			// the source to figure these keys out
 			save();
 			return;
 		}
 		try(FileReader reader = new FileReader(configFile)) {
 			JsonObject data = ADAPTER.fromJson(reader);
+			keepSprintingOnDeath = getBoolean(data, "keepSprintingOnDeath", true);
+
 			sprintOnJoin = getBoolean(data, "sprintOnJoin", true);
 			defaultSprintState = getState(data, "defaultSprintState");
+			alsoStartSprinting = getBoolean(data, "alsoStartSprinting", true);
+
 			sneakOnJoin = getBoolean(data, "sneakOnJoin", false);
 			defaultSneakState = getState(data, "defaultSneakState");
-			toggleOnUse = getBoolean(data, "toggleOnUse", true);
-			keepSprintingOnDeath = getBoolean(data, "keepSprintingOnDeath", true);
+			alsoStartSneaking = getBoolean(data, "alsoStartSneaking", true);
 		} catch(IOException e) {
 			ToggleToggleSprint.LOGGER.error("Failed to load config", e);
 		}
@@ -55,23 +61,26 @@ public class Config {
 		try(FileWriter writer = new FileWriter(configFile); JsonWriter jsonWriter = new JsonWriter(writer)) {
 			jsonWriter.setIndent("  ");
 			JsonObject object = new JsonObject();
+			object.addProperty("keepSprintingOnDeath", keepSprintingOnDeath);
+
 			object.addProperty("sprintOnJoin", sprintOnJoin);
 			object.addProperty("defaultSprintState", defaultSprintState.name());
+			object.addProperty("alsoStartSprinting", alsoStartSprinting);
+
 			object.addProperty("sneakOnJoin", sneakOnJoin);
 			object.addProperty("defaultSneakState", defaultSneakState.name());
-			object.addProperty("toggleOnUse", toggleOnUse);
-			object.addProperty("keepSprintingOnDeath", keepSprintingOnDeath);
+			object.addProperty("alsoStartSneaking", alsoStartSneaking);
 			ADAPTER.write(jsonWriter, object);
 		} catch(IOException e) {
 			ToggleToggleSprint.LOGGER.error("Failed to save config", e);
 		}
 	}
 
-	private boolean getBoolean(JsonObject data, String key, boolean defaultValue) {
+	private static boolean getBoolean(JsonObject data, String key, boolean defaultValue) {
 		return data.has(key) ? data.get(key).getAsBoolean() : defaultValue;
 	}
 
-	private ToggleState getState(JsonObject data, String key) {
+	private static ToggleState getState(JsonObject data, String key) {
 		try {
 			return data.has(key) ? ToggleState.valueOf(data.get(key).getAsString().toUpperCase()) : ToggleState.UNCHANGED;
 		} catch(IllegalArgumentException e) {
@@ -98,12 +107,6 @@ public class Config {
 		return OptionGroup.createBuilder()
 				.name(Text.translatable("toggle-toggle-sprint.general"))
 				.option(Option.<Boolean>createBuilder()
-						.name(Text.translatable("toggle-toggle-sprint.toggleOnUse"))
-						.description(OptionDescription.of(Text.translatable("toggle-toggle-sprint.toggleOnUse.description")))
-						.binding(true, () -> toggleOnUse, value -> this.toggleOnUse = value)
-						.controller(TickBoxControllerBuilderImpl::new)
-						.build())
-				.option(Option.<Boolean>createBuilder()
 						.name(Text.translatable("toggle-toggle-sprint.sprintOnDeath"))
 						.description(OptionDescription.of(Text.translatable("toggle-toggle-sprint.sprintOnDeath.description")))
 						.binding(true, () -> keepSprintingOnDeath, value -> this.keepSprintingOnDeath = value)
@@ -128,7 +131,16 @@ public class Config {
 								.append("\n\n")
 								.append(Text.translatable("toggle-toggle-sprint.sprintState." + option.name().toLowerCase()))))
 						.binding(ToggleState.UNCHANGED, () -> defaultSprintState, value -> this.defaultSprintState = value)
-						.customController(option -> EnumControllerBuilder.create(option).enumClass(ToggleState.class).build())
+						.customController(option -> EnumControllerBuilder.create(option)
+								.enumClass(ToggleState.class)
+								.formatValue(key -> Text.translatable("toggle-toggle-sprint.state." + key.toString().toLowerCase()))
+								.build())
+						.build())
+				.option(Option.<Boolean>createBuilder()
+						.name(Text.translatable("toggle-toggle-sprint.alsoStartSprinting"))
+						.description(OptionDescription.of(Text.translatable("toggle-toggle-sprint.alsoStartSprinting.description")))
+						.binding(true, () -> alsoStartSprinting, value -> this.alsoStartSprinting = value)
+						.controller(TickBoxControllerBuilderImpl::new)
 						.build())
 				.build();
 	}
@@ -152,7 +164,16 @@ public class Config {
 								.append("\n\n")
 								.append(Text.translatable("toggle-toggle-sprint.sneakState." + option.name().toLowerCase()))))
 						.binding(ToggleState.UNCHANGED, () -> defaultSneakState, value -> this.defaultSneakState = value)
-						.customController(option -> EnumControllerBuilder.create(option).enumClass(ToggleState.class).build())
+						.customController(option -> EnumControllerBuilder.create(option)
+								.enumClass(ToggleState.class)
+								.formatValue(key -> Text.translatable("toggle-toggle-sprint.state." + key.toString().toLowerCase()))
+								.build())
+						.build())
+				.option(Option.<Boolean>createBuilder()
+						.name(Text.translatable("toggle-toggle-sprint.alsoStartSneaking"))
+						.description(OptionDescription.of(Text.translatable("toggle-toggle-sprint.alsoStartSneaking.description")))
+						.binding(true, () -> alsoStartSneaking, value -> this.alsoStartSneaking = value)
+						.controller(TickBoxControllerBuilderImpl::new)
 						.build())
 				.build();
 	}

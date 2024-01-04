@@ -20,7 +20,7 @@ public class ToggleToggleSprint implements ClientModInitializer {
 		public void setPressed(boolean pressed) {
 			if(pressed && !isPressed()) {
 				MinecraftClient client = MinecraftClient.getInstance();
-				toggleOption(client.options.sprintToggled, client.options.sprintKey);
+				toggleOption(client.options.sprintToggled, client.options.sprintKey, Config.INSTANCE.alsoStartSprinting);
 			}
 			super.setPressed(pressed);
 		}
@@ -31,7 +31,7 @@ public class ToggleToggleSprint implements ClientModInitializer {
 		public void setPressed(boolean pressed) {
 			if(pressed && !isPressed()) {
 				MinecraftClient client = MinecraftClient.getInstance();
-				toggleOption(client.options.sneakToggled, client.options.sneakKey);
+				toggleOption(client.options.sneakToggled, client.options.sneakKey, Config.INSTANCE.alsoStartSneaking);
 			}
 			super.setPressed(pressed);
 		}
@@ -79,9 +79,8 @@ public class ToggleToggleSprint implements ClientModInitializer {
 		}
 	}
 
-	private static void toggleOption(SimpleOption<Boolean> toggle, KeyBinding keybind) {
-		boolean newValue = !toggle.getValue();
-		toggle.setValue(newValue);
-		if(Config.INSTANCE.toggleOnUse || !newValue) keybind.setPressed(newValue);
+	private static void toggleOption(SimpleOption<Boolean> toggle, KeyBinding keybind, boolean activateKey) {
+		toggle.setValue(!toggle.getValue());
+		if(activateKey && !keybind.isPressed() || !toggle.getValue()) keybind.setPressed(toggle.getValue());
 	}
 }
