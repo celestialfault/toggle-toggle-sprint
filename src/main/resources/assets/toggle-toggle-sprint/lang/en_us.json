@@ -12,9 +12,6 @@
   "toggle-toggle-sprint.state.off": "Off",
   "toggle-toggle-sprint.state.unchanged": "Don't modify",
 
-  "toggle-toggle-sprint.sprintOnDeath": "Keep sprinting on death",
-  "toggle-toggle-sprint.sprintOnDeath.description": "If enabled, your sprinting won't be broken upon respawning",
-
   "toggle-toggle-sprint.sprintOnJoin": "Sprint when joining",
   "toggle-toggle-sprint.sprintOnJoin.description": "If enabled, you'll start sprinting upon joining a world if your sprint key is set to toggle",
   "toggle-toggle-sprint.sprintState": "Default sprinting state",

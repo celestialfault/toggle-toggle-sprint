@@ -21,6 +21,9 @@ public class Config {
 	private static final TypeAdapter<JsonObject> ADAPTER = new Gson().getAdapter(JsonObject.class);
 	public static final Config INSTANCE = new Config();
 
+	/**
+	 * this isn't applicable on 1.19.4, but is loaded and saved for compatibility with 1.20.1+ configs
+	 */
 	public boolean keepSprintingOnDeath = true;
 
 	public boolean sprintOnJoin = true;
@@ -94,25 +97,12 @@ public class Config {
 			.title(Text.translatable("toggle-toggle-sprint.name"))
 			.category(ConfigCategory.createBuilder()
 				.name(Text.translatable("toggle-toggle-sprint.name"))
-				.group(buildGeneral())
 				.group(buildSprint())
 				.group(buildSneak())
 				.build())
 			.save(this::save)
 			.build()
 			.generateScreen(parent);
-	}
-
-	private OptionGroup buildGeneral() {
-		return OptionGroup.createBuilder()
-				.name(Text.translatable("toggle-toggle-sprint.general"))
-				.option(Option.<Boolean>createBuilder()
-						.name(Text.translatable("toggle-toggle-sprint.sprintOnDeath"))
-						.description(OptionDescription.of(Text.translatable("toggle-toggle-sprint.sprintOnDeath.description")))
-						.binding(true, () -> keepSprintingOnDeath, value -> this.keepSprintingOnDeath = value)
-						.controller(TickBoxControllerBuilderImpl::new)
-						.build())
-				.build();
 	}
 
 	private OptionGroup buildSprint() {
