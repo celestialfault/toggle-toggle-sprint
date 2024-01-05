@@ -16,12 +16,12 @@
     "modmenu": ["me.celestialfault.toggletogglesprint.ModMenuCompat"]
   },
   "accessWidener": "toggle-toggle-sprint.accesswidener",
-  "mixins": ["toggle-toggle-sprint.mixins.json"],
   "depends": {
     "fabricloader": ">=0.15",
-    "fabric-api": "*",
-    "minecraft": ">=1.20.1",
-    "java": ">=17"
+    "minecraft": ">=1.19.4 <1.20.1",
+    "java": ">=17",
+    "fabric-key-binding-api-v1": "*",
+    "fabric-lifecycle-events-v1": "*"
   },
   "recommends": {
     "yet_another_config_lib_v3": "*",
