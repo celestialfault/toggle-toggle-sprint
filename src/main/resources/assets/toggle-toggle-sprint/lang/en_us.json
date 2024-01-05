@@ -1,17 +1,16 @@
 {
   "toggle-toggle-sprint.name": "Toggle Toggle Sprint",
+  "toggle-toggle-sprint.noYacl": "This requires Yet Another Config Lib to be installed!",
   "toggle-toggle-sprint.general": "General",
   "toggle-toggle-sprint.sprint": "Sprint",
   "toggle-toggle-sprint.sneak": "Sneak",
 
-  "toggle-toggle-sprint.state.on": "On",
-  "toggle-toggle-sprint.state.off": "Off",
-  "toggle-toggle-sprint.state.unchanged": "Don't modify",
-
   "key.toggle-toggle-sprint.sprint": "Toggle Sprint",
   "key.toggle-toggle-sprint.sneak": "Toggle Sneak",
 
-  "toggle-toggle-sprint.noYacl": "This requires Yet Another Config Lib to be installed!",
+  "toggle-toggle-sprint.state.on": "On",
+  "toggle-toggle-sprint.state.off": "Off",
+  "toggle-toggle-sprint.state.unchanged": "Don't modify",
 
   "toggle-toggle-sprint.sprintOnDeath": "Keep sprinting on death",
   "toggle-toggle-sprint.sprintOnDeath.description": "If enabled, your sprinting won't be broken upon respawning",

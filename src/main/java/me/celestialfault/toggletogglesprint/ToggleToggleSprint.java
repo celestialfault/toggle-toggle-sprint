@@ -15,27 +15,15 @@ public class ToggleToggleSprint implements ClientModInitializer {
 	public static final Logger LOGGER = LogUtils.getLogger();
 	private boolean inWorld = false;
 
-	public static final KeyBinding TOGGLE_SPRINT = new KeyBinding("key.toggle-toggle-sprint.sprint", InputUtil.UNKNOWN_KEY.getCode(), KeyBinding.MOVEMENT_CATEGORY) {
-		@Override
-		public void setPressed(boolean pressed) {
-			if(pressed && !isPressed()) {
-				MinecraftClient client = MinecraftClient.getInstance();
-				toggleOption(client.options.sprintToggled, client.options.sprintKey, Config.INSTANCE.alsoStartSprinting);
-			}
-			super.setPressed(pressed);
-		}
-	};
+	public static final OnPressKeyBinding TOGGLE_SPRINT = new OnPressKeyBinding("key.toggle-toggle-sprint.sprint", InputUtil.UNKNOWN_KEY.getCode(), KeyBinding.MOVEMENT_CATEGORY, () -> {
+		MinecraftClient client = MinecraftClient.getInstance();
+		toggleOption(client.options.sprintToggled, client.options.sprintKey, Config.INSTANCE.alsoStartSprinting);
+	});
 
-	public static final KeyBinding TOGGLE_SNEAK = new KeyBinding("key.toggle-toggle-sprint.sneak", InputUtil.UNKNOWN_KEY.getCode(), KeyBinding.MOVEMENT_CATEGORY) {
-		@Override
-		public void setPressed(boolean pressed) {
-			if(pressed && !isPressed()) {
-				MinecraftClient client = MinecraftClient.getInstance();
-				toggleOption(client.options.sneakToggled, client.options.sneakKey, Config.INSTANCE.alsoStartSneaking);
-			}
-			super.setPressed(pressed);
-		}
-	};
+	public static final OnPressKeyBinding TOGGLE_SNEAK = new OnPressKeyBinding("key.toggle-toggle-sprint.sneak", InputUtil.UNKNOWN_KEY.getCode(), KeyBinding.MOVEMENT_CATEGORY, () -> {
+		MinecraftClient client = MinecraftClient.getInstance();
+		toggleOption(client.options.sneakToggled, client.options.sneakKey, Config.INSTANCE.alsoStartSneaking);
+	});
 
 	@Override
 	public void onInitializeClient() {
@@ -58,8 +46,12 @@ public class ToggleToggleSprint implements ClientModInitializer {
 		// Default sprint state
 		if(Config.INSTANCE.defaultSprintState == Config.ToggleState.ON) {
 			client.options.sprintToggled.setValue(true);
+			// pressing the key is dealt with by #setKeybindStates()
 		} else if(Config.INSTANCE.defaultSprintState == Config.ToggleState.OFF) {
 			client.options.sprintToggled.setValue(false);
+			// ... but, we still want to ensure that the key is unpressed if we're loading into a world for a
+			// second time, and the sprint key was toggled when the last one was left
+			client.options.sprintKey.setPressed(false);
 		}
 
 		// Default sneak state
@@ -67,6 +59,7 @@ public class ToggleToggleSprint implements ClientModInitializer {
 			client.options.sneakToggled.setValue(true);
 		} else if(Config.INSTANCE.defaultSneakState == Config.ToggleState.OFF) {
 			client.options.sneakToggled.setValue(false);
+			client.options.sneakKey.setPressed(false);
 		}
 	}
 
