@@ -8,6 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 
 public class ToggleToggleSprint implements ClientModInitializer {
@@ -15,12 +16,12 @@ public class ToggleToggleSprint implements ClientModInitializer {
 	public static final Logger LOGGER = LogUtils.getLogger();
 	private boolean inWorld = false;
 
-	public static final OnPressKeyBinding TOGGLE_SPRINT = new OnPressKeyBinding("key.toggle-toggle-sprint.sprint", InputUtil.UNKNOWN_KEY.getCode(), KeyBinding.MOVEMENT_CATEGORY, () -> {
+	public static final OnPressKeyBinding TOGGLE_SPRINT = new OnPressKeyBinding("key.toggle-toggle-sprint.sprint", GLFW.GLFW_KEY_RIGHT_CONTROL, KeyBinding.MOVEMENT_CATEGORY, () -> {
 		MinecraftClient client = MinecraftClient.getInstance();
 		toggleOption(client.options.sprintToggled, client.options.sprintKey, Config.INSTANCE.alsoStartSprinting);
 	});
 
-	public static final OnPressKeyBinding TOGGLE_SNEAK = new OnPressKeyBinding("key.toggle-toggle-sprint.sneak", InputUtil.UNKNOWN_KEY.getCode(), KeyBinding.MOVEMENT_CATEGORY, () -> {
+	public static final OnPressKeyBinding TOGGLE_SNEAK = new OnPressKeyBinding("key.toggle-toggle-sprint.sneak", GLFW.GLFW_KEY_RIGHT_SHIFT, KeyBinding.MOVEMENT_CATEGORY, () -> {
 		MinecraftClient client = MinecraftClient.getInstance();
 		toggleOption(client.options.sneakToggled, client.options.sneakKey, Config.INSTANCE.alsoStartSneaking);
 	});
@@ -36,17 +37,16 @@ public class ToggleToggleSprint implements ClientModInitializer {
 		if(client.world == null && inWorld) {
 			inWorld = false;
 		} else if(client.world != null && !inWorld) {
-			doDefaultState(client);
-			setKeybindStates(client);
+			applyJoinStates(client);
 			inWorld = true;
 		}
 	}
 
-	private void doDefaultState(MinecraftClient client) {
+	private void applyJoinStates(MinecraftClient client) {
 		// Default sprint state
 		if(Config.INSTANCE.defaultSprintState == Config.ToggleState.ON) {
 			client.options.sprintToggled.setValue(true);
-			// pressing the key is dealt with by #setKeybindStates()
+			// pressing the key is done later
 		} else if(Config.INSTANCE.defaultSprintState == Config.ToggleState.OFF) {
 			client.options.sprintToggled.setValue(false);
 			// ... but, we still want to ensure that the key is unpressed if we're loading into a world for a
@@ -61,9 +61,8 @@ public class ToggleToggleSprint implements ClientModInitializer {
 			client.options.sneakToggled.setValue(false);
 			client.options.sneakKey.setPressed(false);
 		}
-	}
 
-	private void setKeybindStates(MinecraftClient client) {
+		// Press the keys if they're configured to be pressed when joining a world, and the relevant toggle latch is on
 		if(Config.INSTANCE.sprintOnJoin && client.options.sprintToggled.getValue() && !client.options.sprintKey.isPressed()) {
 			client.options.sprintKey.setPressed(true);
 		}
@@ -74,6 +73,16 @@ public class ToggleToggleSprint implements ClientModInitializer {
 
 	private static void toggleOption(SimpleOption<Boolean> toggle, KeyBinding keybind, boolean activateKey) {
 		toggle.setValue(!toggle.getValue());
-		if(activateKey && !keybind.isPressed() || !toggle.getValue()) keybind.setPressed(toggle.getValue());
+		if(toggle.getValue() && activateKey && !keybind.isPressed()) {
+			keybind.setPressed(true);
+		} else if(!toggle.getValue()) {
+			long handle = MinecraftClient.getInstance().getWindow().getHandle();
+			boolean manuallyHeld = InputUtil.isKeyPressed(handle, KeyBindingHelper.getBoundKeyOf(keybind).getCode());
+			// note that we always call this with the value of manuallyHeld in order to handle the case where the player
+			// presses the vanilla key, thereby toggling the key's held state off, and then pressing our toggle key,
+			// turning off the toggle latch; in such a case, the game wouldn't think the key is being pressed, when
+			// it should logically be pressed.
+			keybind.setPressed(manuallyHeld);
+		}
 	}
 }
