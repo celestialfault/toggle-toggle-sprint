@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - In other words: if you toggle sprint off while holding the vanilla sprint key, you will now continue to sprint after
     toggling it off, instead of having to stop holding and then press the vanilla key again
 - Changed some configuration menu names and descriptions to better describe the relevant settings
+- Removed Fabric loader 0.15+ requirement on 1.19.4, as nothing actually requires it
 
 ## 1.0 - 2024-01-05
 
