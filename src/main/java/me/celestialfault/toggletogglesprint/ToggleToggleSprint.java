@@ -18,12 +18,12 @@ public class ToggleToggleSprint implements ClientModInitializer {
 
 	public static final OnPressKeyBinding TOGGLE_SPRINT = new OnPressKeyBinding("key.toggle-toggle-sprint.sprint", GLFW.GLFW_KEY_RIGHT_CONTROL, KeyBinding.MOVEMENT_CATEGORY, () -> {
 		MinecraftClient client = MinecraftClient.getInstance();
-		toggleOption(client.options.sprintToggled, client.options.sprintKey, Config.INSTANCE.alsoStartSprinting);
+		toggleOption(client.options.getSprintToggled(), client.options.sprintKey, Config.INSTANCE.alsoStartSprinting);
 	});
 
 	public static final OnPressKeyBinding TOGGLE_SNEAK = new OnPressKeyBinding("key.toggle-toggle-sprint.sneak", GLFW.GLFW_KEY_RIGHT_SHIFT, KeyBinding.MOVEMENT_CATEGORY, () -> {
 		MinecraftClient client = MinecraftClient.getInstance();
-		toggleOption(client.options.sneakToggled, client.options.sneakKey, Config.INSTANCE.alsoStartSneaking);
+		toggleOption(client.options.getSneakToggled(), client.options.sneakKey, Config.INSTANCE.alsoStartSneaking);
 	});
 
 	@Override
@@ -45,10 +45,10 @@ public class ToggleToggleSprint implements ClientModInitializer {
 	private void applyJoinStates(MinecraftClient client) {
 		// Default sprint state
 		if(Config.INSTANCE.defaultSprintState == Config.ToggleState.ON) {
-			client.options.sprintToggled.setValue(true);
+			client.options.getSprintToggled().setValue(true);
 			// pressing the key is done later
 		} else if(Config.INSTANCE.defaultSprintState == Config.ToggleState.OFF) {
-			client.options.sprintToggled.setValue(false);
+			client.options.getSprintToggled().setValue(false);
 			// ... but, we still want to ensure that the key is unpressed if we're loading into a world for a
 			// second time, and the sprint key was toggled when the last one was left
 			client.options.sprintKey.setPressed(false);
@@ -56,17 +56,17 @@ public class ToggleToggleSprint implements ClientModInitializer {
 
 		// Default sneak state
 		if(Config.INSTANCE.defaultSneakState == Config.ToggleState.ON) {
-			client.options.sneakToggled.setValue(true);
+			client.options.getSneakToggled().setValue(true);
 		} else if(Config.INSTANCE.defaultSneakState == Config.ToggleState.OFF) {
-			client.options.sneakToggled.setValue(false);
+			client.options.getSneakToggled().setValue(false);
 			client.options.sneakKey.setPressed(false);
 		}
 
 		// Press the keys if they're configured to be pressed when joining a world, and the relevant toggle latch is on
-		if(Config.INSTANCE.sprintOnJoin && client.options.sprintToggled.getValue() && !client.options.sprintKey.isPressed()) {
+		if(Config.INSTANCE.sprintOnJoin && client.options.getSprintToggled().getValue() && !client.options.sprintKey.isPressed()) {
 			client.options.sprintKey.setPressed(true);
 		}
-		if(Config.INSTANCE.sneakOnJoin && client.options.sneakToggled.getValue() && !client.options.sneakKey.isPressed()) {
+		if(Config.INSTANCE.sneakOnJoin && client.options.getSneakToggled().getValue() && !client.options.sneakKey.isPressed()) {
 			client.options.sneakKey.setPressed(true);
 		}
 	}

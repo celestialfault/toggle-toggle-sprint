@@ -24,8 +24,8 @@ as close to the vanilla sprinting behavior as possible, avoiding anti-cheats get
 
 ## Modpacks?
 
-Go for it. I'd prefer that the download remains within the Modrinth ecosystem, but as this mod is licensed under [CC-0],
-you're free to redistribute it however you see fit (but I'd still appreciate credit where possible).
+Go for it. I'd prefer that the download remains within the Modrinth ecosystem, but as this mod is licensed under the
+[CC-0], you're free to redistribute it however you see fit (but I'd still appreciate credit where possible).
 
 [YACL]: https://modrinth.com/mod/yacl
 [Mod Menu]: https://modrinth.com/mod/modmenu

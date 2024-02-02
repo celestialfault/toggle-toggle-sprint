@@ -15,7 +15,6 @@
     "client": ["me.celestialfault.toggletogglesprint.ToggleToggleSprint"],
     "modmenu": ["me.celestialfault.toggletogglesprint.ModMenuCompat"]
   },
-  "accessWidener": "toggle-toggle-sprint.accesswidener",
   "mixins": ["toggle-toggle-sprint.mixins.json"],
   "depends": {
     "fabricloader": ">=0.15",
