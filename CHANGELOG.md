@@ -5,19 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.1 - Unreleased
+## 1.1 - 2024-02-01
 
 ### Added
 
 - This changelog file
-- Added default bindings for the toggle keys using the right-side versions of the default vanilla key, such as Right Shift
-  to match the default Left Shift for the Sneak key
+- Added default key bindings for the toggle keys using the right-side versions of the vanilla defaults, such as Right Shift to match sneak's Left Shift default
 
 ### Changed
 
-- Improved behavior around toggling a key off while the vanilla key is still being held
-  - In other words: if you toggle sprint off while holding the vanilla sprint key, you will now continue to sprint after
-    toggling it off, instead of having to stop holding and then press the vanilla key again
+- Improved behavior around toggling a key off while the relevant vanilla key is still being held
 - Changed some configuration menu names and descriptions to better describe the relevant settings
 
 ## 1.0 - 2024-01-05
