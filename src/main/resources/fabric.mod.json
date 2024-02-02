@@ -15,7 +15,6 @@
     "client": ["me.celestialfault.toggletogglesprint.ToggleToggleSprint"],
     "modmenu": ["me.celestialfault.toggletogglesprint.ModMenuCompat"]
   },
-  "accessWidener": "toggle-toggle-sprint.accesswidener",
   "depends": {
     "fabricloader": ">=0.15",
     "minecraft": ">=1.19.4 <1.20.1",

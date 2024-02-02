@@ -96,7 +96,7 @@ public class Config {
 		return YetAnotherConfigLib.createBuilder()
 			.title(Text.translatable("toggle-toggle-sprint.name"))
 			.category(ConfigCategory.createBuilder()
-				.name(Text.translatable("toggle-toggle-sprint.name"))
+				.name(Text.translatable("toggle-toggle-sprint.config"))
 				.group(buildSprint())
 				.group(buildSneak())
 				.build())
@@ -144,7 +144,7 @@ public class Config {
 						.description(OptionDescription.of(
 								Text.translatable("toggle-toggle-sprint.sneakOnJoin.description")
 										.append("\n\n")
-										.append(Text.translatable("toggle-toggle-sprint.sneakOnJoin.warning").formatted(Formatting.RED))))
+										.append(Text.translatable("toggle-toggle-sprint.potentiallyCheaty").formatted(Formatting.RED))))
 						.binding(false, () -> sneakOnJoin, sneakOnJoin -> this.sneakOnJoin = sneakOnJoin)
 						.controller(TickBoxControllerBuilderImpl::new)
 						.build())
