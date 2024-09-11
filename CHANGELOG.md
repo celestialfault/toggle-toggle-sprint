@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 1.1.1 - 2024-09-11
+
 ### Changed
 
 - Changed the mod's build process making supporting multiple versions much easier
-- Relicensed under the [zlib license](LICENSE)
+- Relicensed under the [zlib license](https://github.com/celestialfault/toggle-toggle-sprint/blob/main/LICENSE)
 - Improved toggle key behavior if the vanilla key isn't pressed but is already set to Toggle
 
 ## 1.1 - 2024-02-01

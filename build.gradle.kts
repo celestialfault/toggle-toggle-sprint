@@ -1,5 +1,9 @@
+import org.gradle.kotlin.dsl.publishMods
+import java.io.FileNotFoundException
+
 plugins {
     id("fabric-loom")
+    id("me.modmuss50.mod-publish-plugin")
 }
 
 class ModData {
@@ -71,7 +75,6 @@ loom {
 }
 
 java {
-    withSourcesJar()
     val java = if (stonecutter.compare(mcVersion, "1.20.6") >= 0) JavaVersion.VERSION_21 else JavaVersion.VERSION_17
     targetCompatibility = java
     sourceCompatibility = java
@@ -99,4 +102,27 @@ tasks.register<Copy>("buildAndCollect") {
     from(tasks.remapJar.get().archiveFile)
     into(rootProject.layout.buildDirectory.file("libs/${mod.version}"))
     dependsOn("build")
+}
+
+publishMods {
+    file = tasks.remapJar.get().archiveFile
+    displayName = "${mod.version} for ${property("mod.mc_title").toString()}"
+    version = "${mod.version}+$mcVersion"
+	changelog = runCatching {
+		// NOTE: this requires running .github/extract_changelog.py first
+		rootProject.file("CHANGELOG.mini").readText()
+	}.getOrDefault("See the full changelog at https://github.com/celestialfault/toggle-toggle-sprint/blob/main/CHANGELOG.md")
+    type = STABLE
+    modLoaders.add("fabric")
+
+    dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
+
+    modrinth {
+        projectId = property("publish.modrinth").toString()
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+        minecraftVersions.addAll(property("mod.mc_targets").toString().split(" "))
+        requires("fabric-api")
+        optional("yacl")
+        optional("modmenu")
+    }
 }
