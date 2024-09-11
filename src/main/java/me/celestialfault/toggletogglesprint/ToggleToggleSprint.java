@@ -72,10 +72,15 @@ public class ToggleToggleSprint implements ClientModInitializer {
 	}
 
 	private static void toggleOption(SimpleOption<Boolean> toggle, KeyBinding keybind, boolean activateKey) {
-		toggle.setValue(!toggle.getValue());
 		if(toggle.getValue() && activateKey && !keybind.isPressed()) {
+			// if the toggle latch is already enabled but the key isn't pressed, and we're configured to simulate
+			// the key press, then just simulate the key press instead of turning off the latch to avoid requiring
+			// pressing the toggle key twice to start sprinting/sneaking.
 			keybind.setPressed(true);
-		} else if(!toggle.getValue()) {
+			return;
+		}
+		toggle.setValue(!toggle.getValue());
+		if(!toggle.getValue()) {
 			long handle = MinecraftClient.getInstance().getWindow().getHandle();
 			boolean manuallyHeld = InputUtil.isKeyPressed(handle, KeyBindingHelper.getBoundKeyOf(keybind).getCode());
 			// note that we always call this with the value of manuallyHeld in order to handle the case where the player
@@ -83,6 +88,8 @@ public class ToggleToggleSprint implements ClientModInitializer {
 			// turning off the toggle latch; in such a case, the game wouldn't think the key is being pressed, when
 			// it should logically be pressed.
 			keybind.setPressed(manuallyHeld);
+		} else if(activateKey && !keybind.isPressed()) {
+			keybind.setPressed(true);
 		}
 	}
 }

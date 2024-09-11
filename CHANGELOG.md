@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Changed the mod's build process making supporting multiple versions much easier
 - Relicensed under the [zlib license](LICENSE)
+- Improved toggle key behavior if the vanilla key isn't pressed but is already set to Toggle
 
 ## 1.1 - 2024-02-01
 
