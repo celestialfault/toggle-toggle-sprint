@@ -16,27 +16,26 @@
   "toggle-toggle-sprint.state.unchanged": "Don't modify",
 
   "toggle-toggle-sprint.sprintOnDeath": "Keep sprinting after death",
-  "toggle-toggle-sprint.sprintOnDeath.description.line1": "As of 1.20.1, the game will release all toggled keys when the player respawns, including the Sprint key.",
-  "toggle-toggle-sprint.sprintOnDeath.description.line2": "This feature prevents vanilla from releasing your sprint key, ensuring that you continue to sprint after respawning.",
-  "toggle-toggle-sprint.sprintOnDeath.description.line3": "Note that this feature only affects the Sprint key, and all other toggle keys (such as the Sneak key) will still be released.",
+  "toggle-toggle-sprint.sprintOnDeath.description.line1": "Normally when you respawn, the game will release all your pressed toggle keybinds; this feature prevents the game from releasing your Sprint key, ensuring you continue to sprint after respawning.",
+  "toggle-toggle-sprint.sprintOnDeath.description.line2": "Note that this feature only affects the Sprint key; all other toggle keys (such as the Sneak key) will still be released as normal.",
 
   "toggle-toggle-sprint.sprintOnJoin": "Start sprinting",
   "toggle-toggle-sprint.sprintOnJoin.description": "If enabled, you'll start sprinting when loading into a world if your Sprint control is set to Toggle",
-  "toggle-toggle-sprint.sprintState": "Default sprinting state",
+  "toggle-toggle-sprint.sprintState": "Default sprint state",
   "toggle-toggle-sprint.sprintState.description": "Changes your default state for sprinting",
   "toggle-toggle-sprint.sprintState.on": "Your Sprint control will be changed to Toggle when joining a world",
   "toggle-toggle-sprint.sprintState.off": "Your Sprint control will be changed to Hold when joining a world",
   "toggle-toggle-sprint.sprintState.unchanged": "Your Sprint control won't be modified when joining a world",
-  "toggle-toggle-sprint.alsoStartSprinting": "Also start sprinting",
+  "toggle-toggle-sprint.alsoStartSprinting": "Simulate Sprint key press",
   "toggle-toggle-sprint.alsoStartSprinting.description": "When enabled, the toggle key will also simulate a Sprint key press when activated if you're not already sprinting",
 
   "toggle-toggle-sprint.sneakOnJoin": "Start sneaking",
   "toggle-toggle-sprint.sneakOnJoin.description": "If enabled, you'll start sneaking when loading into a world if your Sneak control is set to Toggle",
-  "toggle-toggle-sprint.sneakState": "Default sneaking state",
+  "toggle-toggle-sprint.sneakState": "Default sneak state",
   "toggle-toggle-sprint.sneakState.description": "Changes the default state for your Sneak control",
   "toggle-toggle-sprint.sneakState.on": "Your Sneak control will be changed to Toggle when joining a world",
   "toggle-toggle-sprint.sneakState.off": "Your Sneak control will be changed to Hold when joining a world",
   "toggle-toggle-sprint.sneakState.unchanged": "Your Sneak control won't be modified when joining a world",
-  "toggle-toggle-sprint.alsoStartSneaking": "Also start sneaking",
+  "toggle-toggle-sprint.alsoStartSneaking": "Simulate Sneak key press",
   "toggle-toggle-sprint.alsoStartSneaking.description": "When enabled, the toggle key will also simulate a Sneak key press when activated if you're not already sneaking"
 }

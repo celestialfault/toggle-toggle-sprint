@@ -94,7 +94,9 @@ public class Config {
 			.title(Text.translatable("toggle-toggle-sprint.name"))
 			.category(ConfigCategory.createBuilder()
 				.name(Text.translatable("toggle-toggle-sprint.config"))
+				//? if >=1.20.1 {
 				.group(buildGeneral())
+				//? }
 				.group(buildSprint())
 				.group(buildSneak())
 				.build())
@@ -103,6 +105,7 @@ public class Config {
 			.generateScreen(parent);
 	}
 
+	//? if >=1.20.1 {
 	private OptionGroup buildGeneral() {
 		return OptionGroup.createBuilder()
 				.name(Text.translatable("toggle-toggle-sprint.general"))
@@ -111,14 +114,13 @@ public class Config {
 						.description(OptionDescription.of(
 							Text.translatable("toggle-toggle-sprint.sprintOnDeath.description.line1")
 								.append("\n\n")
-								.append(Text.translatable("toggle-toggle-sprint.sprintOnDeath.description.line2"))
-								.append("\n\n")
-								.append(Text.translatable("toggle-toggle-sprint.sprintOnDeath.description.line3"))))
+								.append(Text.translatable("toggle-toggle-sprint.sprintOnDeath.description.line2"))))
 						.binding(true, () -> keepSprintingOnDeath, value -> this.keepSprintingOnDeath = value)
 						.controller(TickBoxControllerBuilderImpl::new)
 						.build())
 				.build();
 	}
+	//? }
 
 	private OptionGroup buildSprint() {
 		//noinspection UnstableApiUsage
@@ -138,7 +140,7 @@ public class Config {
 						.binding(ToggleState.UNCHANGED, () -> defaultSprintState, value -> this.defaultSprintState = value)
 						.customController(option -> EnumControllerBuilder.create(option)
 								.enumClass(ToggleState.class)
-								.formatValue(key -> Text.translatable("toggle-toggle-sprint.state." + key.toString().toLowerCase()))
+								./*?if yacl: >3.2.1*/formatValue/*? else*//*valueFormatter*/(key -> Text.translatable("toggle-toggle-sprint.state." + key.toString().toLowerCase()))
 								.build())
 						.build())
 				.option(Option.<Boolean>createBuilder()
@@ -171,7 +173,7 @@ public class Config {
 						.binding(ToggleState.UNCHANGED, () -> defaultSneakState, value -> this.defaultSneakState = value)
 						.customController(option -> EnumControllerBuilder.create(option)
 								.enumClass(ToggleState.class)
-								.formatValue(key -> Text.translatable("toggle-toggle-sprint.state." + key.toString().toLowerCase()))
+								./*?if yacl: >3.2.1*/formatValue/*? else*//*valueFormatter*/(key -> Text.translatable("toggle-toggle-sprint.state." + key.toString().toLowerCase()))
 								.build())
 						.build())
 				.option(Option.<Boolean>createBuilder()
